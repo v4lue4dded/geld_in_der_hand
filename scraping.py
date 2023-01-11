@@ -1,17 +1,8 @@
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import Select
-chrome_options = webdriver.ChromeOptions()
-chrome_options.add_argument('--no-sandbox')
-chrome_options.add_argument('--window-size=1920,1080')
-chrome_options.add_argument('--headless')
-chrome_options.add_argument('--disable-gpu')
-
-driver = webdriver.Chrome(chrome_options=chrome_options)
 
 # ag2 calculator:
-
-
 def get_ag2_details(
     partner_gemeinschaft=False,
     schwangerschaft=False,
@@ -29,6 +20,12 @@ def get_ag2_details(
     bruttoeinkommen_partner=0.0,
     nettoeinkommen_partner=0.0,
 ):
+    chrome_options = webdriver.ChromeOptions()
+    chrome_options.add_argument('--no-sandbox')
+    chrome_options.add_argument('--window-size=1920,1080')
+    chrome_options.add_argument('--headless')
+    chrome_options.add_argument('--disable-gpu')
+    driver = webdriver.Chrome(chrome_options=chrome_options)
     ag2_input_dict = {
     "partner_gemeinschaft"    : partner_gemeinschaft,
     "schwangerschaft"         : schwangerschaft,
@@ -147,6 +144,11 @@ def get_ag2_details(
     return ag2_output_dict
 
 get_ag2_details(kind_1="24",kind_2=5)
+
+
+# brutto_netto calculator:
+
+
 
 ############################ get image of current stage #########################################
 from PIL import Image

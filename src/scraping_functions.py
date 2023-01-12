@@ -141,7 +141,7 @@ def get_ag2_details(
         inputbox = driver.find_element_by_name(no_i)
         ag2_output_dict[no_i] = float(inputbox.get_attribute('value').replace(".","").replace(",","."))
 
-    return ag2_output_dict
+    return ag2_input_dict, ag2_output_dict
 
 # brutto_netto calculator:
 
@@ -191,6 +191,7 @@ def get_bn_details(
     "f_arbeitgeberzuschuss_pkv"  : f_arbeitgeberzuschuss_pkv,
     "f_rentenversicherung"       : f_rentenversicherung,
     "f_arbeitslosenversicherung" : f_arbeitslosenversicherung,
+    "return_monthly"             : return_monthly,
     }
 
     url = "https://www.brutto-netto-rechner.eu/partner/rechner/partner_bnr.php"
@@ -212,7 +213,7 @@ def get_bn_details(
 
     for li_i in list_element_inputs:
         inputlist = driver.find_element(by=By.NAME, value=li_i)
-        option_visible_text_list = [i.text for i in inputlist.find_elements_by_tag_name("option")]
+        option_visible_text_list = [i.text for i in inputlist.find_elements(by=By.TAG_NAME, value="option")]
         assert bn_input_dict[li_i] in option_visible_text_list, f"Error: {bn_input_dict[li_i]} for {li_i} isn't one of the following options: {str(option_visible_text_list)}"
         select = Select(inputlist)
         select.select_by_visible_text(bn_input_dict[li_i])
@@ -227,7 +228,7 @@ def get_bn_details(
     for ri_i in radio_inputs:
         if (ri_i in ["f_abrechnungszeitraum", "f_kirche", "f_kinder"]
         or bn_input_dict["f_krankenversicherung"] == "privatversichert" and ri_i == "f_arbeitgeberzuschuss_pkv" ):
-            radio = driver.find_element_by_xpath(f"//input[@type='radio' and @name='{ri_i}' and @value='{bn_input_dict[ri_i].lower()}']")
+            radio = driver.find_element(by=By.XPATH, value=f"//input[@type='radio' and @name='{ri_i}' and @value='{bn_input_dict[ri_i].lower()}']")
             radio.click()
 
     numeric_inputs = [
@@ -269,17 +270,17 @@ def get_bn_details(
         if len(row_i) == 3 and ":" in row_i[0]:
             item_name_raw = row_i[0]
             item_name = item_name_raw.strip().replace(":","").replace(" ","_").lower()
-            if return_monthly:
-                value_raw = row_i[2]
+            if bn_input_dict["return_monthly"]:
+                value_raw = row_i[1]
             else:
-                value_raw = row_i[3]
+                value_raw = row_i[2]
             if "€" in value_raw:
                 value = float(value_raw.replace("€","").replace(".","").replace(",",".")) 
             else:
                 value = value_raw.strip()
             bn_output_dict[item_name] = value
 
-    return bn_output_dict
+    return bn_input_dict, bn_output_dict
 
 
 # ############################ get image of current stage #########################################

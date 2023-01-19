@@ -262,8 +262,8 @@ def get_bn_details(
 
     # extract the data from the table
     data = []
-    for row in table.find_elements_by_xpath(".//tr"):
-        data.append([cell.text for cell in row.find_elements_by_xpath(".//td")])
+    for row in table.find_elements(by=By.XPATH, value=".//tr"):
+        data.append([cell.text for cell in row.find_elements(by=By.XPATH, value=".//td")])
 
     bn_output_dict = dict() 
     for row_i in data:

@@ -51,7 +51,7 @@ info_dict_list = [
 },
 # Einzelperson
 {
-"name" : "Paar mit 2 Kindern",
+"name" : "Einzelperson",
 "bn_base_dict" : {
     "f_abrechnungszeitraum":"Monat",
     "f_geld_werter_vorteil":0,
@@ -91,22 +91,17 @@ for info_dict in info_dict_list:
     name=info_dict["name"]
     bn_base_dict=info_dict["bn_base_dict"]
     ag2_base_dict=info_dict["ag2_base_dict"]
+    print(name)
 
     brutto_range = chain(
-        range(1400, 1800,10),
+        range(0,14010,10),
     )
 
-    # brutto_range = chain(
-    #     range(0,14010,10),
-    # )
-
-    # brutto_range = chain(
-    #     range(0,200,10),
-    #     range(200,1000,50),
-    #     range(1000,3000, 100),
-    #     range(3000,8000, 200),
-    #     range(8000,14000,500),
-    # )
+    brutto_range = chain(
+        range(0,200,20),
+        range(200,1000,50),
+        range(1000,14000, 100),
+    )
 
 
     data_list = []

@@ -94,13 +94,9 @@ for info_dict in info_dict_list:
     print(name)
 
     brutto_range = chain(
-        range(0,14010,10),
-    )
-
-    brutto_range = chain(
         range(0,200,20),
         range(200,1000,50),
-        range(1000,14000, 100),
+        range(1000,8000, 100),
     )
 
 
